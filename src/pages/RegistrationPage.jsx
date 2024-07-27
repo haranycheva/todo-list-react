@@ -1,9 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { FormBtn } from "../FormToDo/FormToDo.styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/oparations";
 
 import * as Yup from "yup";
+import { Loader } from "../Loader/Loader";
+import { selectorLodingForAuth } from "../redux/authSelectors";
 
 const schemaValidation = Yup.object({
   email: Yup.string().email().required("Email is required"),
@@ -13,8 +15,10 @@ const schemaValidation = Yup.object({
 
 export const RegistrationPage = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectorLodingForAuth);
   return (
     <>
+          {isLoading && <Loader />}
       <h1>sign up</h1>
       <Formik
         initialValues={{

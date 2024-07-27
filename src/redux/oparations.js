@@ -46,7 +46,6 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk("auth/login", async (arg, thunkApi) => {
   try {
     const res =  await axios.post("/users/signin", arg);
-    console.log(res);
     setAuthHeader(res.data.token)
     return res.data;
   } catch (error) {

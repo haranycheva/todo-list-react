@@ -10,10 +10,11 @@ export const AuthSlice = createSlice({
     token: null,
     isLogged: false,
     isRefreshed: false,
+    isLoading: false
   },
   extraReducers: (builder) =>
     builder
-      .addCase(refreshUser.pending, (state, action) => {
+      .addCase(refreshUser.pending, (state) => {
         state.isRefreshed = true;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
@@ -21,7 +22,7 @@ export const AuthSlice = createSlice({
         state.isLogged = true;
         state.isRefreshed = false;
       })
-      .addCase(refreshUser.rejected, (state, action) => {
+      .addCase(refreshUser.rejected, (state) => {
         state.isRefreshed = false;
       })
       .addCase(register.fulfilled, (state, action) => {
@@ -34,11 +35,23 @@ export const AuthSlice = createSlice({
         state.isLogged = true;
         state.token = action.payload.token;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         state.user = { email: null, userName: null };
         state.isLogged = false;
         state.token = null;
-      })
+      })      
+      .addMatcher(
+        (action) => action.type.endsWith("pending"),
+        (state) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("rejected") || action.type.endsWith("fulfilled"),
+        (state) => {
+          state.isLoading = false;
+        }
+      )
 });
 
 export const AuthReducer = AuthSlice.reducer;

@@ -18,6 +18,8 @@ const rootReduser = (state = initState, action) => {
 const addObjToolkit = createAction("obj/add");
 const deleteObjToolkit = createAction("obj/delete");
 
+console.log(addObjToolkit.toString());
+
 const rootReducerToolkit = createReducer(initState, (builder) =>
   builder
     .addCase(addObjToolkit, (state, action) => {

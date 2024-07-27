@@ -37,7 +37,6 @@ function Todo() {
     fetch();
   }, [dispatch]);
 
-
   const toggleDeleteModal = (id) => {
     setDeleteEl(!showDeleteModal ? id : null);
     setShowDeleteModal((showDeleteModal) => !showDeleteModal);
@@ -79,30 +78,34 @@ function Todo() {
   const filteredList = todoList?.length && toFilter(todoList);
   return (
     <>
-      <FilterForm />
       {error && <p>Ooooooooooops.... Something went wrong.....</p>}
       {isLoading && <Loader />}
-      {filteredList?.length > 0 && (
-        <>
-          <ButtonOpenModal onClick={toggleChangeTodoModal}>
-            change todo
-          </ButtonOpenModal>
-          <ListToDo
-            list={filteredList}
-            onDelete={toggleDeleteModal}
-            selected={selected}
-            onClick={handleClick}
-          />
-        </>
-      )}
-      <PresentationBox
-        selected={
-          selected || {
-            title: "You selected nothing",
-            description: "...",
-          }
-        }
-      />
+      {todoList?.length ? <>
+        <FilterForm />
+        {filteredList?.length > 0 ? (
+          <>
+            <ButtonOpenModal onClick={toggleChangeTodoModal}>
+              change todo
+            </ButtonOpenModal>
+            <ListToDo
+              list={filteredList}
+              onDelete={toggleDeleteModal}
+              selected={selected}
+              onClick={handleClick}
+            />
+            <PresentationBox
+              selected={
+                selected || {
+                  title: "You selected nothing",
+                  description: "...",
+                }
+              }
+            />
+          </>
+        ) : (
+          <p>nothing found</p>
+        )}
+      </> : <p> you haven`t created any todo yet</p>}
       {showChangeModal && <ChangeTodoModal onClose={toggleChangeTodoModal} />}
       {showDeleteModal && (
         <ModalForDelete onClose={toggleDeleteModal} onDelete={handleDelete} />

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { isLogged } from "../redux/authSelectors";
+import { selectorIsLogged } from "../redux/authSelectors";
 import { logout } from "../redux/oparations";
 
 export const Layout = () => {
-  const isUserLogged = useSelector(isLogged);
+  const isUserLogged = useSelector(selectorIsLogged);
   const dispatch = useDispatch();
   const handleLodout = (e) => {
     dispatch(logout());
